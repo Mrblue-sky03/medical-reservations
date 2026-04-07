@@ -1,5 +1,4 @@
 <img width="4488" height="1806" alt="DiagramaEntidadRelación" src="https://github.com/user-attachments/assets/f8a9541b-9051-4571-b58d-1ca86b8a7eae" />
-Aquí tienes el documento completo en un solo bloque. Solo haz clic en el botón de "Copiar código" en la esquina superior derecha de este recuadro y pégalo directamente en tu archivo `README.md`.
 
 ```markdown
 # Medical Reservations API
