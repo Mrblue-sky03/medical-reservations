@@ -1,4 +1,3 @@
-<img width="4488" height="1806" alt="DiagramaEntidadRelación" src="https://github.com/user-attachments/assets/f8a9541b-9051-4571-b58d-1ca86b8a7eae" />
 
 ```markdown
 # Medical Reservations API
