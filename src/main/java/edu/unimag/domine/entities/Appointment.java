@@ -21,6 +21,22 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id", nullable = false)
+    private Patient patient;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id", nullable = false)
+    private Doctor doctor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "office_id", nullable = false)
+    private Office office;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "appointment_type_id", nullable = false)
+    private AppointmentType appointmentType;
+
     @Column(nullable = false)
     private LocalDate date;
 
@@ -30,8 +46,9 @@ public class Appointment {
     @Column(nullable = false)
     private LocalTime endAt;
 
-    @Column(name = "appointment_status")
-    private Status appointmentStatus;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private Status status;
 
     @Column(nullable = false)
     private String observations;

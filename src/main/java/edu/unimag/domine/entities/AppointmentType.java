@@ -4,6 +4,8 @@ package edu.unimag.domine.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -18,6 +20,10 @@ public class AppointmentType {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @OneToMany(mappedBy = "appointmentType", fetch = FetchType.LAZY)
+    @Builder.Default
+    private Set<Appointment> appointments = new HashSet<>();
+
     @Column(nullable = false)
     private String name;
 
@@ -25,6 +31,11 @@ public class AppointmentType {
     private String description;
 
     @Column(name = "duration_minutes", nullable = false)
-    private Integer duration;
+    private Integer durationMinutes;
+
+    public void addAppointment(Appointment appointment) {
+        appointments.add(appointment);
+        appointment.setAppointmentType(this);
+    }
 
 }

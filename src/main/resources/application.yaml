@@ -1,3 +1,18 @@
 spring:
   application:
     name: medical-reservations
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/medical_reservations
+    username: postgres
+    password: 24Mu371466a
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true

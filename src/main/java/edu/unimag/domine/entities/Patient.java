@@ -6,6 +6,8 @@ import lombok.*;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -22,9 +24,14 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
+    @Builder.Default
+    private Set<Appointment> appointments = new HashSet<>();
+
     @Column(name = "full_name", nullable = false, length = 120)
     private String fullName;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "document_type",nullable = false)
     private DocumentType documentType;
 
@@ -48,5 +55,10 @@ public class Patient {
 
     @Column(name = "updated_at")
     private Instant updatedAt;
+
+    public void addAppointment(Appointment appointment) {
+        appointments.add(appointment);
+        appointment.setPatient(this);
+    }
 
 }
