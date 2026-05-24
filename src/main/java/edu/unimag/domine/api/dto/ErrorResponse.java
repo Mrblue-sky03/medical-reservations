@@ -1,9 +1,12 @@
 package edu.unimag.domine.api.dto;
 
-import edu.unimag.domine.entities.enums.DocumentType;
-
 import java.io.Serializable;
-import java.util.UUID;
+import java.time.OffsetDateTime;
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public record ErrorResponse(
         @JsonFormat(shape = JsonFormat.Shape.STRING) OffsetDateTime timestamp,

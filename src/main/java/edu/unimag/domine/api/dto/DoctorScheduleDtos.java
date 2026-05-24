@@ -1,6 +1,5 @@
 package edu.unimag.domine.api.dto;
 
-import edu.unimag.domine.entities.Doctor;
 import edu.unimag.domine.entities.enums.DayOfWeek;
 
 import java.io.Serializable;
@@ -16,6 +15,7 @@ public class DoctorScheduleDtos {
     ) implements Serializable {}
 
     public record DoctorScheduleResponse(
+            UUID id,
             UUID doctorId,
             DayOfWeek dayOfWeek,
             LocalTime startsAt,

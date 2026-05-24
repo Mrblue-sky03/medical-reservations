@@ -57,6 +57,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
                 .toList();
 
 
+
         List<LocalTime[]> officeOccupied = appointmentRepository
                 .findByOfficeIdAndDateAndStartAtBetween(officeId, date, LocalTime.MIN, LocalTime.MAX)
                 .stream()
@@ -94,4 +95,5 @@ public class AvailabilityServiceImpl implements AvailabilityService {
             throw new ValidationException(message);
         }
     }
+    
 }

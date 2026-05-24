@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 public interface DoctorScheduleMapper {
 
         @Mapping(source = "doctor.id", target = "doctorId")
+        @Mapping(source = "id", target = "id")
         DoctorScheduleResponse toResponse(DoctorSchedule schedule);
 
         @Mapping(target = "id", ignore = true)

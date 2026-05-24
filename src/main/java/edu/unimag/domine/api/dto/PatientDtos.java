@@ -15,7 +15,7 @@ public class PatientDtos {
             String email,
             String phoneNumber,
             LocalDate birthDay
-    ) implements Serializable {}
+    ) implements Serializable {} 
 
     public record UpdatePatientRequest(
             String fullName,

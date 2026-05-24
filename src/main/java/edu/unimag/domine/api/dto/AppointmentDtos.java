@@ -3,7 +3,6 @@ package edu.unimag.domine.api.dto;
 import edu.unimag.domine.entities.enums.Status;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;

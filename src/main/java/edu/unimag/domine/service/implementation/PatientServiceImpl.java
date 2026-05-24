@@ -8,8 +8,12 @@ import edu.unimag.domine.exceptions.ResourceNotFoundException;
 import edu.unimag.domine.exceptions.ValidationException;
 import edu.unimag.domine.mappers.PatientMapper;
 import edu.unimag.domine.repositories.PatientRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import edu.unimag.domine.service.PatientService;
 import lombok.RequiredArgsConstructor;
+
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,5 +56,10 @@ public class PatientServiceImpl implements PatientService {
 
         patientMapper.update(request, patient);
         return patientMapper.toResponse(patientRepository.save(patient));
+    }
+
+    @Override 
+    public Page<PatientResponse> getAll(Pageable pageable) {
+        return patientRepository.findAll(pageable).map(Patient -> patientMapper.toResponse(Patient));
     }
 }

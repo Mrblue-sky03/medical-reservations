@@ -1,6 +1,9 @@
 package edu.unimag.domine.repositories;
 
 import edu.unimag.domine.entities.Patient;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -11,4 +14,6 @@ public interface PatientRepository extends JpaRepository<Patient, UUID> {
     List<Patient> findByActive(Boolean active);
 
     boolean existsByDocumentNumber(String documentNumber);
+
+    Page<Patient> findAll(Pageable page);
 }

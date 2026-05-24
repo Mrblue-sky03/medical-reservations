@@ -14,5 +14,5 @@ public interface AppointmentTypeMapper {
 
         @Mapping(target = "id", ignore = true)
         AppointmentType toEntity(CreateAppointmentTypeRequest request);
-    }
+}
 

@@ -11,4 +11,5 @@ public class AvailabilityDto {
             LocalTime startsAt,
             LocalTime endsAt
     ) implements Serializable {}
+
 }
