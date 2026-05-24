@@ -8,4 +8,5 @@ import java.util.List;
 public interface AppointmentTypeService {
         AppointmentTypeResponse create(CreateAppointmentTypeRequest req);
         List<AppointmentTypeResponse> getAll();
+        AppointmentTypeResponse getById(java.util.UUID id);
 }
