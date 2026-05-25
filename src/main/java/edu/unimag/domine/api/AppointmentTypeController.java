@@ -42,5 +42,9 @@ public class AppointmentTypeController {
         return ResponseEntity.ok(appointmentTypes);
     }
 
-    
+    @GetMapping("/{id}")
+    public ResponseEntity<AppointmentTypeResponse> getById(@PathVariable UUID id) {
+        var appointmentType = appointmentTypeService.getById(id);
+        return ResponseEntity.ok(appointmentType);
+    }    
 }

@@ -9,8 +9,8 @@ import edu.unimag.domine.mappers.AppointmentTypeMapper;
 import edu.unimag.domine.repositories.AppointmentTypeRepository;
 import edu.unimag.domine.service.AppointmentTypeService;
 import lombok.RequiredArgsConstructor;
+import java.util.UUID;
 
-import org.hibernate.validator.constraints.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,9 +69,8 @@ public class AppointmentTypeServiceImpl implements AppointmentTypeService {
     @Transactional(readOnly = true)
     @Override
     public AppointmentTypeResponse getById(UUID id) {
-        return appointmentTypeRepository.findById(UUID.fromString(id))
+        return appointmentTypeRepository.findById(id)
                 .map(appointmentTypeMapper::toResponse)
                 .orElseThrow(() -> new ValidationException("Appointment type with id '" + id + "' not found"));
     }
-
 }

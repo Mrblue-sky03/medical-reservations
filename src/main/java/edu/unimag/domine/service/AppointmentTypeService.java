@@ -4,9 +4,10 @@ import edu.unimag.domine.api.dto.AppointmentTypesDtos.CreateAppointmentTypeReque
 import edu.unimag.domine.api.dto.AppointmentTypesDtos.AppointmentTypeResponse;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface AppointmentTypeService {
         AppointmentTypeResponse create(CreateAppointmentTypeRequest req);
         List<AppointmentTypeResponse> getAll();
-        AppointmentTypeResponse getById(java.util.UUID id);
+        AppointmentTypeResponse getById(UUID id);
 }

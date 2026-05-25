@@ -1,6 +1,7 @@
 package edu.unimag.domine.api;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -37,6 +38,12 @@ public class SpecialtyController{
     public ResponseEntity<List<SpecialtyResponse>> getAll() {
         var specialties = specialtyService.getAll();
         return ResponseEntity.ok(specialties);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SpecialtyResponse> getById(UUID id){
+        var specialty = specialtyService.getById(id);
+        return ResponseEntity.ok(specialty);
     }
 
 }
