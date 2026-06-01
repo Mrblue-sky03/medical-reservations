@@ -45,7 +45,8 @@ public class Patient {
     private String phoneNumber;
 
     @Column(nullable = false)
-    private Boolean active;
+    @Builder.Default
+    private Boolean active = true;
 
     @Column(name = "birth_date",nullable = false)
     private LocalDate birthDate;

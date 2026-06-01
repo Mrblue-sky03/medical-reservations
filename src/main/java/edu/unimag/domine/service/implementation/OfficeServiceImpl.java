@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -31,6 +32,8 @@ public class OfficeServiceImpl implements OfficeService {
             throw new ValidationException("request can not be null");
         }
         Office office = officeMapper.toEntity(req);
+        office.setActive(true);
+        office.setCreatedAt(Instant.now());
         return officeMapper.toResponse(officeRepository.save(office));
     }
 

@@ -20,6 +20,7 @@ public interface PatientMapper {
     @Mapping(target = "active", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(source = "birthDay", target = "birthDate")  
     Patient toEntity(CreatePatientRequest request);
 
     @BeanMapping(nullValuePropertyMappingStrategy = IGNORE)

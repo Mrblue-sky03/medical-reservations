@@ -29,7 +29,8 @@ public class Office {
     private String name;
 
     @Column(nullable = false)
-    private Boolean active;
+    @Builder.Default
+    private Boolean active = true;
 
     @Column(nullable = false)
     private String location;

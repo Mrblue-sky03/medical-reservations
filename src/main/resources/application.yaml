@@ -3,9 +3,9 @@ spring:
     name: medical-reservations
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/medical_reservations
+    url: jdbc:postgresql://localhost:5432/medical_db
     username: postgres
-    password: 24Mu371466a
+    password: '0414'
     driver-class-name: org.postgresql.Driver
 
   jpa:

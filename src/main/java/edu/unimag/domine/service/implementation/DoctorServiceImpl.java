@@ -4,15 +4,18 @@ import edu.unimag.domine.api.dto.DoctorDtos.CreateDoctorRequest;
 import edu.unimag.domine.api.dto.DoctorDtos.DoctorResponse;
 import edu.unimag.domine.api.dto.DoctorDtos.UpdateDoctorRequest;
 import edu.unimag.domine.entities.Doctor;
+import edu.unimag.domine.entities.Specialty;
 import edu.unimag.domine.exceptions.ResourceNotFoundException;
 import edu.unimag.domine.exceptions.ValidationException;
 import edu.unimag.domine.mappers.DoctorMapper;
 import edu.unimag.domine.repositories.DoctorRepository;
+import edu.unimag.domine.repositories.SpecialtyRepository;
 import edu.unimag.domine.service.DoctorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -24,15 +27,20 @@ public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
     private final DoctorMapper doctorMapper;
+    private final SpecialtyRepository specialtyService;
 
     @Override
     public DoctorResponse create(CreateDoctorRequest req) {
         if (Objects.isNull(req)) {
             throw new ValidationException("request can not be null");
         }
+        Specialty specialty = specialtyService.findById(req.specialtyId())
+                .orElseThrow(() -> new ResourceNotFoundException("Specialty not found " + req.specialtyId()));
 
         Doctor doctor = doctorMapper.toEntity(req);
-
+        doctor.setActive(true);                          // ← agrega esto
+        doctor.setCreatedAt(Instant.now());
+        doctor.setSpecialty(specialty);
         return doctorMapper.toResponse(doctorRepository.save(doctor));
     }
 

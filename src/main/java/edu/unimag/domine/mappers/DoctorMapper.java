@@ -16,6 +16,7 @@ public interface DoctorMapper {
         @Mapping(target = "id", ignore = true)
         @Mapping(target = "specialty", ignore = true)
         @Mapping(target = "active", ignore = true)
+        @Mapping(source = "numberLicense", target = "licenseNumber")  
         Doctor toEntity(CreateDoctorRequest request);
 
         @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
