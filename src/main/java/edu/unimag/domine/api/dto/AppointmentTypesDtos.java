@@ -1,14 +1,20 @@
 package edu.unimag.domine.api.dto;
 
+
+import jakarta.validation.constraints.*;
+
 import java.io.Serializable;
 import java.util.UUID;
 
 public class AppointmentTypesDtos {
 
     public record CreateAppointmentTypeRequest(
-            String name,
+            @NotBlank String name,
             String description,
+            @NotNull
+            @Positive
             Integer durationMinutes
+
     ) implements Serializable {}
 
     public record AppointmentTypeResponse(
