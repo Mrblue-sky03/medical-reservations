@@ -35,13 +35,13 @@ public class DoctorDtos {
     ) implements Serializable {}
 
     public record UpdateDoctorRequest(
-            @NotNull UUID specialtyId,
-            @NotBlank String fullName,
-            @NotBlank @Email String email,
-            @NotBlank String phoneNumber,
-            @NotBlank String numberLicense,
-            @NotBlank String documentNumber,
-            @NotNull Boolean active
+            UUID specialtyId,
+            String fullName,
+            @Email String email,
+            String phoneNumber,
+            String numberLicense,
+            String documentNumber,
+            Boolean active
     ) implements Serializable {}
 
     public record DoctorResponse(

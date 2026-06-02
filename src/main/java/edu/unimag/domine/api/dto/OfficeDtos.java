@@ -18,9 +18,9 @@ public class OfficeDtos {
     ) implements Serializable {}
 
     public record UpdateOfficeRequest(
-            @NotBlank String name,
-            @NotBlank String location,
-            @NotNull Boolean active
+            String name,
+            String location,
+            Boolean active
     ) implements Serializable {}
 
     public record OfficeResponse(

@@ -33,11 +33,11 @@ public class PatientDtos {
     ) implements Serializable {}
 
     public record UpdatePatientRequest(
-            @NotBlank String fullName,
-            @NotBlank @Email String email,
-            @NotBlank String phoneNumber,
-            @NotNull DocumentType documentType,
-            @NotNull(message = "Active status is required") Boolean active
+            String fullName,
+            @Email String email,
+            String phoneNumber,
+            DocumentType documentType,
+            Boolean active
     ) implements Serializable {}
 
     public record PatientResponse(

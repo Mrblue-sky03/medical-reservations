@@ -20,7 +20,7 @@ public class AppointmentTypesDtos {
     public record UpdateAppointmentTypeRequest(
             String name,
             String description,
-            Integer durationMinutes
+            @Positive Integer durationMinutes
     ) implements Serializable {}
 
     public record AppointmentTypeResponse(
