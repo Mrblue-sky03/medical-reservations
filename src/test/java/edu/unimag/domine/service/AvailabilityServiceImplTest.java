@@ -2,6 +2,7 @@ package edu.unimag.domine.service;
 
 import edu.unimag.domine.entities.Appointment;
 import edu.unimag.domine.entities.DoctorSchedule;
+
 import edu.unimag.domine.entities.enums.DayOfWeek;
 import edu.unimag.domine.entities.enums.Status;
 import edu.unimag.domine.exceptions.ResourceNotFoundException;

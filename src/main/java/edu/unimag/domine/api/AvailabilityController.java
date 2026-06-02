@@ -27,8 +27,10 @@ public class AvailabilityController {
     public ResponseEntity<List<AvailabilitySlotResponse>> getDoctorAvailability(
             @PathVariable UUID doctorId,
             @RequestParam(required = false) UUID officeId,
+            @RequestParam(required = false) UUID appointmentTypeId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        var availability = availabilityService.getAvailableSlots(doctorId, officeId, date);
+
+        var availability = availabilityService.getAvailableSlots(doctorId, officeId, date, appointmentTypeId);
         return ResponseEntity.ok(availability);
     }
 

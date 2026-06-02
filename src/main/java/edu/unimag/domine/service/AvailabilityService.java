@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface AvailabilityService {
-    List<AvailabilitySlotResponse> getAvailableSlots(UUID doctorId, UUID officeId, LocalDate date);
+    List<AvailabilitySlotResponse> getAvailableSlots(UUID doctorId, UUID officeId, LocalDate date, UUID appointmentTypeId);
 }

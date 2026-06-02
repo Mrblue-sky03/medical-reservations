@@ -13,6 +13,11 @@ public class SpecialtyDtos {
             String description
     ) implements Serializable {}
 
+    public record UpdateSpecialtyRequest(
+            String name,
+            String description
+    ) implements Serializable {}
+
     public record SpecialtyResponse(
             UUID id,
             String name,
