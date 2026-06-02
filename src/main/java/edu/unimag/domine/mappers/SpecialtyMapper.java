@@ -11,6 +11,7 @@ public interface SpecialtyMapper {
         SpecialtyDtos.SpecialtyResponse toResponse(Specialty specialty);
 
         @Mapping(target = "id", ignore = true)
+        @Mapping(target = "doctors", ignore = true)
         Specialty toEntity(SpecialtyDtos.CreateSpecialtyRequest request);
     }
 

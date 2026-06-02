@@ -12,10 +12,19 @@ public interface OfficeMapper {
         OfficeResponse toResponse(Office office);
 
         @Mapping(target = "id", ignore = true)
+        @Mapping(target = "appointments", ignore = true)
+        @Mapping(target = "active", ignore = true)
+        @Mapping(target = "description", ignore = true)
+        @Mapping(target = "createdAt", ignore = true)
+        @Mapping(target = "updatedAt", ignore = true)
         Office toEntity(CreateOfficeRequest request);
 
         @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
         @Mapping(target = "id", ignore = true)
+        @Mapping(target = "appointments", ignore = true)
+        @Mapping(target = "description", ignore = true)
+        @Mapping(target = "createdAt", ignore = true)
+        @Mapping(target = "updatedAt", ignore = true)
         void update(UpdateOfficeRequest dto, @MappingTarget Office entity);
     }
 

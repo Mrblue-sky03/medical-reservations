@@ -18,14 +18,17 @@ public interface PatientMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "active", ignore = true)
+    @Mapping(target = "appointments", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(source = "birthDay", target = "birthDate")  
+    @Mapping(source = "birthDay", target = "birthDate")
     Patient toEntity(CreatePatientRequest request);
 
     @BeanMapping(nullValuePropertyMappingStrategy = IGNORE)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "documentNumber", ignore = true)
+    @Mapping(target = "appointments", ignore = true)
+    @Mapping(target = "birthDate", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     void update(UpdatePatientRequest dto, @MappingTarget Patient entity);

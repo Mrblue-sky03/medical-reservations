@@ -13,6 +13,7 @@ public interface AppointmentTypeMapper {
         AppointmentTypeResponse toResponse(AppointmentType type);
 
         @Mapping(target = "id", ignore = true)
+        @Mapping(target = "appointments", ignore = true)
         AppointmentType toEntity(CreateAppointmentTypeRequest request);
 }
 
