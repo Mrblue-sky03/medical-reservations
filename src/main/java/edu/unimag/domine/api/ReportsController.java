@@ -24,15 +24,30 @@ import lombok.RequiredArgsConstructor;
 public class ReportsController {
 
     private final ReportsService reportService;
-   
+
     @GetMapping("/office-occupancy")
     public ResponseEntity<List<OfficeOccupancyResponse>> getOfficeOccupancy(
-        @RequestParam LocalDate date,
-        @RequestParam LocalTime startAt,
-        @RequestParam LocalTime endAt) {
-
-        var occupancy = reportService.getOfficeOccupancy(date, startAt, endAt);
+        @RequestParam(required = false) LocalDate date,
+        @RequestParam(required = false) LocalTime startAt,
+        @RequestParam(required = false) LocalTime endAt) {
+        
+        LocalDate d = date != null ? date : LocalDate.now();
+        LocalTime s = startAt != null ? startAt : LocalTime.MIN;
+        LocalTime e = endAt != null ? endAt : LocalTime.MAX;
+        
+        var occupancy = reportService.getOfficeOccupancy(d, s, e);
         return ResponseEntity.ok(occupancy);
+    }
+
+    @GetMapping("/no-show-patients")
+    public ResponseEntity<List<NoShowPatientResponse>> getNoShowPatients(
+        @RequestParam(required = false) LocalDate date,
+        @RequestParam(required = false) LocalTime startAt,
+        @RequestParam(required = false) LocalTime endAt) {
+        
+        LocalDate d = date != null ? date : LocalDate.now();
+        var noShows = reportService.getNoShowPatients(d, startAt, endAt);
+        return ResponseEntity.ok(noShows);
     }
 
     @GetMapping("/doctor-productivity")
@@ -40,16 +55,7 @@ public class ReportsController {
         var productivity = reportService.getDoctorProductivity();
         return ResponseEntity.ok(productivity);
     }
-
-    @GetMapping("/no-show-patients")
-    public ResponseEntity<List<NoShowPatientResponse>> getNoShowPatients(
-            @RequestParam LocalDate date,
-            @RequestParam(required = false) LocalTime startAt,
-            @RequestParam(required = false) LocalTime endAt) {
-
-        var noShows = reportService.getNoShowPatients(date, startAt, endAt);
-        return ResponseEntity.ok(noShows);
-    }
+    
 }
 
 

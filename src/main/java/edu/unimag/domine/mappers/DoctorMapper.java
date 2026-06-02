@@ -11,12 +11,17 @@ public interface DoctorMapper {
 
 
         @Mapping(source = "specialty.id", target = "specialtyId")
+        @Mapping(source = "licenseNumber", target = "numberLicense")
         DoctorResponse toResponse(Doctor doctor);
 
         @Mapping(target = "id", ignore = true)
         @Mapping(target = "specialty", ignore = true)
         @Mapping(target = "active", ignore = true)
-        @Mapping(source = "numberLicense", target = "licenseNumber")  
+        @Mapping(target = "schedules", ignore = true)
+        @Mapping(target = "appointments", ignore = true)
+        @Mapping(target = "createdAt", ignore = true)
+        @Mapping(target = "updatedAt", ignore = true)
+        @Mapping(source = "numberLicense", target = "licenseNumber")
         Doctor toEntity(CreateDoctorRequest request);
 
         @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
@@ -24,6 +29,7 @@ public interface DoctorMapper {
         @Mapping(target = "specialty", ignore = true)
         @Mapping(target = "createdAt", ignore = true)
         @Mapping(target = "updatedAt", ignore = true)
+        @Mapping(source = "numberLicense", target = "licenseNumber")  
         void update(UpdateDoctorRequest dto, @MappingTarget Doctor entity);
 
     }

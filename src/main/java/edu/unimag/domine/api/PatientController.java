@@ -51,7 +51,7 @@ public class PatientController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<PatientResponse> update(UpdatePatientRequest request, @PathVariable UUID id){
+    public ResponseEntity<PatientResponse> update(@RequestBody @Valid UpdatePatientRequest request, @PathVariable UUID id){
         var patientUpdated = patientService.update(id, request);
         return ResponseEntity.ok(patientUpdated);
     }

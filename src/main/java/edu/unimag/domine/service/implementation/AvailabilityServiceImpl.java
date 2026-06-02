@@ -36,7 +36,6 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     public List<AvailabilitySlotResponse> getAvailableSlots(UUID doctorId, UUID officeId, LocalDate date) {
 
         requireNonNull(doctorId, "El ID del doctor no puede ser nulo");
-        requireNonNull(officeId, "El ID de la oficina no puede ser nulo");
         requireNonNull(date, "La fecha no puede ser nula");
 
         if (!doctorRepository.existsById(doctorId)) {

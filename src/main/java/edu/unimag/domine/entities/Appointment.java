@@ -50,7 +50,7 @@ public class Appointment {
     @Column(name = "status", nullable = false)
     private Status status;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String observations;
 
     @Column(name = "cancel_reason")

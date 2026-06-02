@@ -38,9 +38,10 @@ public class DoctorServiceImpl implements DoctorService {
                 .orElseThrow(() -> new ResourceNotFoundException("Specialty not found " + req.specialtyId()));
 
         Doctor doctor = doctorMapper.toEntity(req);
-        doctor.setActive(true);                          // ← agrega esto
+        doctor.setActive(true);                      
         doctor.setCreatedAt(Instant.now());
         doctor.setSpecialty(specialty);
+        doctor.setLicenseNumber(req.numberLicense());
         return doctorMapper.toResponse(doctorRepository.save(doctor));
     }
 

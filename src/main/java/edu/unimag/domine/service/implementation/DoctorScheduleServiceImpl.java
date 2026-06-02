@@ -60,4 +60,25 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
                 .map(doctorScheduleMapper::toResponse)
                 .toList();
     }
+
+    @Override
+    public DoctorScheduleResponse update(UUID scheduleId, CreateDoctorScheduleRequest request) {
+        if (request.startAt().isAfter(request.endAt())) {
+            throw new ValidationException("La hora de inicio no puede ser posterior a la hora de fin");
+        }
+        DoctorSchedule schedule = doctorScheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new ResourceNotFoundException("Horario no encontrado: " + scheduleId));
+        schedule.setDayOfWeek(request.dayOfWeek());
+        schedule.setStartsAt(request.startAt());
+        schedule.setEndsAt(request.endAt());
+        return doctorScheduleMapper.toResponse(doctorScheduleRepository.save(schedule));
+    }
+
+    @Override
+    public void delete(UUID scheduleId) {
+        if (!doctorScheduleRepository.existsById(scheduleId)) {
+            throw new ResourceNotFoundException("Horario no encontrado: " + scheduleId);
+        }
+        doctorScheduleRepository.deleteById(scheduleId);
+    }
 }

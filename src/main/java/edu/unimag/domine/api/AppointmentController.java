@@ -46,29 +46,29 @@ private final AppointmentService appointmentService;
         var appointments = appointmentService.getAll();
         return ResponseEntity.ok(appointments);
     }
-    
+        
+    @PatchMapping("/{id}/confirm")
+    public ResponseEntity<AppointmentResponse> confirm(@PathVariable UUID id, UriComponentsBuilder uriBuilder){
+        var appointmentConfirmed = appointmentService.confirm(id);
+        return ResponseEntity.ok(appointmentConfirmed);
+    }
+
     @PatchMapping("/{id}/complete")
-    public ResponseEntity<AppointmentResponse> complete(UUID id, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<AppointmentResponse> complete(@PathVariable UUID id, UriComponentsBuilder uriBuilder){
         var appointmentCompleted = appointmentService.complete(id);
         return ResponseEntity.ok(appointmentCompleted);
     }
 
-    @PatchMapping("/{id}/cancel")
-    public ResponseEntity<AppointmentResponse> cancel(UUID id, CancelAppointmentRequest request, UriComponentsBuilder uriBuilder){
-        var appointmentCanceled = appointmentService.cancel(id, request);
-        return ResponseEntity.ok(appointmentCanceled);
-    }
-
     @PatchMapping("/{id}/no-show")
-    public ResponseEntity<AppointmentResponse> markAsNoShow(UUID id, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<AppointmentResponse> markAsNoShow(@PathVariable UUID id, UriComponentsBuilder uriBuilder){
         var appointmentNoShow = appointmentService.markAsNoShow(id);
         return ResponseEntity.ok(appointmentNoShow);
     }
 
-    @PatchMapping("/{id}/confirm")
-    public ResponseEntity<AppointmentResponse> confirm(UUID id, UriComponentsBuilder uriBuilder){
-        var appointmentConfirmed = appointmentService.confirm(id);
-        return ResponseEntity.ok(appointmentConfirmed);
+    @PatchMapping("/{id}/cancel")
+    public ResponseEntity<AppointmentResponse> cancel(@PathVariable UUID id, @RequestBody CancelAppointmentRequest request, UriComponentsBuilder uriBuilder){
+        var appointmentCanceled = appointmentService.cancel(id, request);
+        return ResponseEntity.ok(appointmentCanceled);
     }
 
 }

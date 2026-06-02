@@ -23,9 +23,11 @@ import lombok.RequiredArgsConstructor;
 public class AvailabilityController {
 
     private final AvailabilityService availabilityService;
-    
     @GetMapping("/doctors/{doctorId}")
-    public ResponseEntity<List<AvailabilitySlotResponse>> getDoctorAvailability(@PathVariable UUID doctorId, @RequestParam UUID officeId, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+    public ResponseEntity<List<AvailabilitySlotResponse>> getDoctorAvailability(
+            @PathVariable UUID doctorId,
+            @RequestParam(required = false) UUID officeId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         var availability = availabilityService.getAvailableSlots(doctorId, officeId, date);
         return ResponseEntity.ok(availability);
     }

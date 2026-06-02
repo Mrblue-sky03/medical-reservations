@@ -24,5 +24,7 @@ public interface AppointmentMapper {
     @Mapping(target = "endAt", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "cancelReason", ignore = true)        // ← agrega
+    @Mapping(source = "startsAt", target = "startAt")
     Appointment toEntity(CreateAppointmentRequest request);
 }
