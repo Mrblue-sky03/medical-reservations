@@ -45,7 +45,6 @@ class AppointmentRepositoryTest extends AbstractIntegrationDBTest {
         specialtyRepository.deleteAll();
     }
 
-    // ─── Métodos helper ───────────────────────────────────────────
 
     private Specialty createSpecialty() {
         Specialty specialty = Specialty.builder()
@@ -133,11 +132,9 @@ class AppointmentRepositoryTest extends AbstractIntegrationDBTest {
         return appointmentRepository.save(appointment);
     }
 
-    // ─── Tests Query Methods ───────────────────────────────────────
 
     @Test
     void shouldFindByPatientIdAndStatus() {
-        // arrange
         Patient patient = createPatient();
         Doctor doctor = createDoctor(createSpecialty());
         Office office = createOffice();
@@ -154,18 +151,17 @@ class AppointmentRepositoryTest extends AbstractIntegrationDBTest {
                 Status.CANCELLED
         );
 
-        // act
+
         List<Appointment> result = appointmentRepository
                 .findByPatientIdAndStatus(patient.getId(), Status.SCHEDULED);
 
-        // assert
+
         assertThat(result).hasSize(1);
         assertThat(result.get(0).getId()).isEqualTo(scheduled.getId());
     }
 
     @Test
     void shouldFindByDateBetween() {
-        // arrange
         Patient patient = createPatient();
         Doctor doctor = createDoctor(createSpecialty());
         Office office = createOffice();
@@ -182,20 +178,16 @@ class AppointmentRepositoryTest extends AbstractIntegrationDBTest {
                 Status.SCHEDULED
         );
 
-        // act
         List<Appointment> result = appointmentRepository
                 .findByDateBetween(LocalDate.of(2025, 1, 1), LocalDate.of(2025, 1, 31));
 
-        // assert
         assertThat(result).hasSize(1);
         assertThat(result.get(0).getId()).isEqualTo(inRange.getId());
     }
 
-    // ─── Tests JPQL ───────────────────────────────────────────────
 
     @Test
     void shouldDetectOverlapByDoctor() {
-        // arrange
         Patient patient = createPatient();
         Doctor doctor = createDoctor(createSpecialty());
         Office office = createOffice();
@@ -207,7 +199,6 @@ class AppointmentRepositoryTest extends AbstractIntegrationDBTest {
                 Status.SCHEDULED
         );
 
-        // act — intenta crear una cita que se traslapa
         boolean overlaps = appointmentRepository.existsOverlapByDoctor(
                 doctor.getId(),
                 LocalDate.of(2025, 1, 15),
@@ -215,13 +206,11 @@ class AppointmentRepositoryTest extends AbstractIntegrationDBTest {
                 LocalTime.of(9, 45)
         );
 
-        // assert
         assertThat(overlaps).isTrue();
     }
 
     @Test
     void shouldNotDetectOverlapByDoctorWhenNoOverlap() {
-        // arrange
         Patient patient = createPatient();
         Doctor doctor = createDoctor(createSpecialty());
         Office office = createOffice();
@@ -233,7 +222,6 @@ class AppointmentRepositoryTest extends AbstractIntegrationDBTest {
                 Status.SCHEDULED
         );
 
-        // act — intenta crear una cita que NO se traslapa
         boolean overlaps = appointmentRepository.existsOverlapByDoctor(
                 doctor.getId(),
                 LocalDate.of(2025, 1, 15),
@@ -241,13 +229,11 @@ class AppointmentRepositoryTest extends AbstractIntegrationDBTest {
                 LocalTime.of(10, 0)
         );
 
-        // assert
         assertThat(overlaps).isFalse();
     }
 
     @Test
     void shouldDetectOverlapByOffice() {
-        // arrange
         Patient patient = createPatient();
         Doctor doctor = createDoctor(createSpecialty());
         Office office = createOffice();
@@ -259,7 +245,7 @@ class AppointmentRepositoryTest extends AbstractIntegrationDBTest {
                 Status.SCHEDULED
         );
 
-        // act
+
         boolean overlaps = appointmentRepository.existsOverlapByOffice(
                 office.getId(),
                 LocalDate.of(2025, 1, 15),
@@ -267,13 +253,12 @@ class AppointmentRepositoryTest extends AbstractIntegrationDBTest {
                 LocalTime.of(9, 45)
         );
 
-        // assert
+
         assertThat(overlaps).isTrue();
     }
 
     @Test
     void shouldDetectOverlapByPatient() {
-        // arrange
         Patient patient = createPatient();
         Doctor doctor = createDoctor(createSpecialty());
         Office office = createOffice();
@@ -285,7 +270,6 @@ class AppointmentRepositoryTest extends AbstractIntegrationDBTest {
                 Status.SCHEDULED
         );
 
-        // act
         boolean overlaps = appointmentRepository.existsOverlapByPatient(
                 patient.getId(),
                 LocalDate.of(2025, 1, 15),
@@ -293,13 +277,11 @@ class AppointmentRepositoryTest extends AbstractIntegrationDBTest {
                 LocalTime.of(9, 45)
         );
 
-        // assert
         assertThat(overlaps).isTrue();
     }
 
     @Test
     void shouldRankDoctorsByCompletedAppointments() {
-        // arrange
         Specialty specialty = createSpecialty();
         Doctor doctor1 = createDoctor(specialty);
         Doctor doctor2 = createDoctor(specialty);
@@ -314,10 +296,8 @@ class AppointmentRepositoryTest extends AbstractIntegrationDBTest {
         createAppointment(patient, doctor2, office, type,
                 LocalDate.now(), LocalTime.of(11, 0), LocalTime.of(11, 30), Status.COMPLETED);
 
-        // act
         List<Object[]> ranking = appointmentRepository.rankingDoctors();
 
-        // assert
         assertThat(ranking).hasSize(2);
         assertThat(ranking.get(0)[0]).isEqualTo(doctor1.getId());
         assertThat((Long) ranking.get(0)[1]).isEqualTo(2L);
@@ -325,7 +305,7 @@ class AppointmentRepositoryTest extends AbstractIntegrationDBTest {
 
     @Test
     void shouldCountCancelledAndNoShowBySpecialty() {
-        // arrange
+
         Specialty specialty = createSpecialty();
         Doctor doctor = createDoctor(specialty);
         Patient patient = createPatient();
@@ -339,17 +319,14 @@ class AppointmentRepositoryTest extends AbstractIntegrationDBTest {
         createAppointment(patient, doctor, office, type,
                 LocalDate.now(), LocalTime.of(11, 0), LocalTime.of(11, 30), Status.COMPLETED);
 
-        // act
         List<Object[]> result = appointmentRepository.countCancelledAndNoShowBySpecialty();
 
-        // assert
         assertThat(result).hasSize(1);
         assertThat((Long) result.get(0)[1]).isEqualTo(2L);
     }
 
     @Test
     void shouldFindTopNoShowPatients() {
-        // arrange
         Patient patient1 = createPatient();
         Patient patient2 = createPatient();
         Doctor doctor = createDoctor(createSpecialty());
@@ -366,10 +343,8 @@ class AppointmentRepositoryTest extends AbstractIntegrationDBTest {
         createAppointment(patient2, doctor, office, type,
                 LocalDate.of(2025, 1, 12), LocalTime.of(9, 0), LocalTime.of(9, 30), Status.NO_SHOW);
 
-        // act
         List<Object[]> result = appointmentRepository.topNoShowPatients(start, end);
 
-        // assert
         assertThat(result).hasSize(2);
         assertThat(result.get(0)[0]).isEqualTo(patient1.getId());
         assertThat((Long) result.get(0)[1]).isEqualTo(2L);

@@ -32,7 +32,6 @@ class AppointmentTypeServiceImplTest {
 
     @Test
     void shouldCreateSuccessfully() {
-        // Usamos los campos correctos de tu DTO
         var request = new CreateAppointmentTypeRequest("General", "Consulta básica", 30);
         var entity = new AppointmentType();
         var response = new AppointmentTypeResponse(UUID.randomUUID(), "General", "Consulta básica", 30);

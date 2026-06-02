@@ -53,7 +53,6 @@ class DoctorRepositoryTest extends AbstractIntegrationDBTest {
 
     @Test
     void shouldFindBySpecialtyAndActiveTrue() {
-        // arrange
         Specialty specialty1 = createSpecialty();
         Specialty specialty2 = createSpecialty();
 
@@ -61,23 +60,19 @@ class DoctorRepositoryTest extends AbstractIntegrationDBTest {
         createDoctor(specialty1, false);
         createDoctor(specialty2, true);
 
-        // act
         List<Doctor> result = doctorRepository.findBySpecialtyAndActiveTrue(specialty1);
 
-        // assert
         assertThat(result).hasSize(1);
         assertThat(result.get(0).getId()).isEqualTo(activeDoctor.getId());
     }
 
     @Test
     void shouldFindByActive() {
-        // arrange
         Specialty specialty = createSpecialty();
 
         Doctor activeDoctor = createDoctor(specialty, true);
         createDoctor(specialty, false);
 
-        // act
         List<Doctor> result = doctorRepository.findByActive(true);
 
         // assert
@@ -87,16 +82,13 @@ class DoctorRepositoryTest extends AbstractIntegrationDBTest {
 
     @Test
     void shouldReturnAllInactiveDoctors() {
-        // arrange
         Specialty specialty = createSpecialty();
 
         createDoctor(specialty, true);
         Doctor inactiveDoctor = createDoctor(specialty, false);
 
-        // act
         List<Doctor> result = doctorRepository.findByActive(false);
 
-        // assert
         assertThat(result).hasSize(1);
         assertThat(result.get(0).getId()).isEqualTo(inactiveDoctor.getId());
     }

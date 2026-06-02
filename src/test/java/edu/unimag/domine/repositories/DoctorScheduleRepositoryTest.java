@@ -71,35 +71,29 @@ class DoctorScheduleRepositoryTest extends AbstractIntegrationDBTest {
 
     @Test
     void shouldFindByDoctorIdAndDayOfWeek() {
-        // arrange
         Specialty specialty = createSpecialty();
         Doctor doctor = createDoctor(specialty);
 
         DoctorSchedule monday = createSchedule(doctor, DayOfWeek.MONDAY);
         createSchedule(doctor, DayOfWeek.TUESDAY);
 
-        // act
         Optional<DoctorSchedule> result = doctorScheduleRepository
                 .findByDoctorIdAndDayOfWeek(doctor.getId(), DayOfWeek.MONDAY);
 
-        // assert
         assertThat(result).isPresent();
         assertThat(result.get().getId()).isEqualTo(monday.getId());
     }
 
     @Test
     void shouldReturnEmptyWhenDoctorHasNoScheduleForDay() {
-        // arrange
         Specialty specialty = createSpecialty();
         Doctor doctor = createDoctor(specialty);
 
         createSchedule(doctor, DayOfWeek.MONDAY);
 
-        // act
         Optional<DoctorSchedule> result = doctorScheduleRepository
                 .findByDoctorIdAndDayOfWeek(doctor.getId(), DayOfWeek.WEDNESDAY);
 
-        // assert
         assertThat(result).isEmpty();
     }
 }

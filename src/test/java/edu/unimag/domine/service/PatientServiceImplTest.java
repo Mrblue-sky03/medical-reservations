@@ -63,7 +63,7 @@ class PatientServiceImplTest {
 
     @Test
     void shouldUpdateSuccessfully() {
-        var request = new UpdatePatientRequest("John Doe Updated", "john.new@mail.com", "555-0000", null);
+        var request = new UpdatePatientRequest("John Doe Updated", "john.new@mail.com", "555-0000", null, false);
         var entity = new Patient();
         var response = new PatientResponse(id, "John Doe Updated", null, "12345", "john.new@mail.com", "555-0000", true, LocalDate.now());
 

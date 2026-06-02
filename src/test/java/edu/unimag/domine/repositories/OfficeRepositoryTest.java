@@ -34,13 +34,10 @@ class OfficeRepositoryTest extends AbstractIntegrationDBTest {
 
     @Test
     void shouldReturnTrueWhenActiveOfficeExists() {
-        // arrange
         createOffice(true, "Building A");
 
-        // act
         boolean result = officeRepository.existsByActive(true);
 
-        // assert
         assertThat(result).isTrue();
     }
 

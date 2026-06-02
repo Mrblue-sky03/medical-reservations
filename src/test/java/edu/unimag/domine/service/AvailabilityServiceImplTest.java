@@ -8,6 +8,7 @@ import edu.unimag.domine.entities.enums.Status;
 import edu.unimag.domine.exceptions.ResourceNotFoundException;
 import edu.unimag.domine.exceptions.ValidationException;
 import edu.unimag.domine.repositories.AppointmentRepository;
+import edu.unimag.domine.repositories.AppointmentTypeRepository;
 import edu.unimag.domine.repositories.DoctorRepository;
 import edu.unimag.domine.repositories.DoctorScheduleRepository;
 import edu.unimag.domine.service.implementation.AvailabilityServiceImpl;
@@ -41,6 +42,9 @@ class AvailabilityServiceImplTest {
     @Mock
     private AppointmentRepository appointmentRepository;
 
+    @Mock
+    private AppointmentTypeRepository appointmentTypeRepository;
+
     @InjectMocks
     private AvailabilityServiceImpl service;
 
@@ -50,21 +54,18 @@ class AvailabilityServiceImplTest {
 
     @Test
     void shouldReturnAvailableSlotsSuccessfully() {
-        // Horario de 08:00 a 10:00 (Deberían ser 4 bloques de 30 mins)
         var schedule = DoctorSchedule.builder()
                 .dayOfWeek(DayOfWeek.MONDAY)
                 .startsAt(LocalTime.of(8, 0))
                 .endsAt(LocalTime.of(10, 0))
                 .build();
 
-        // Cita del doctor de 08:30 a 09:00
         var doctorAppointment = Appointment.builder()
                 .startAt(LocalTime.of(8, 30))
                 .endAt(LocalTime.of(9, 0))
                 .status(Status.SCHEDULED)
                 .build();
 
-        // Cita de la oficina de 09:30 a 10:00
         var officeAppointment = Appointment.builder()
                 .startAt(LocalTime.of(9, 30))
                 .endAt(LocalTime.of(10, 0))
@@ -80,12 +81,10 @@ class AvailabilityServiceImplTest {
         when(appointmentRepository.findByOfficeIdAndDateAndStartAtBetween(eq(officeId), eq(targetDate), any(), any()))
                 .thenReturn(List.of(officeAppointment));
 
-        var result = service.getAvailableSlots(doctorId, officeId, targetDate);
+        var result = service.getAvailableSlots(doctorId, officeId, targetDate, null);
 
-        // De los 4 bloques posibles, 2 están ocupados, deben quedar 2
         assertThat(result).hasSize(2);
 
-        // Verificamos los bloques que quedaron libres
         assertThat(result.get(0).startsAt()).isEqualTo(LocalTime.of(8, 0));
         assertThat(result.get(0).endsAt()).isEqualTo(LocalTime.of(8, 30));
 
@@ -98,10 +97,9 @@ class AvailabilityServiceImplTest {
         var schedule = DoctorSchedule.builder()
                 .dayOfWeek(DayOfWeek.MONDAY)
                 .startsAt(LocalTime.of(8, 0))
-                .endsAt(LocalTime.of(9, 0)) // 2 bloques posibles
+                .endsAt(LocalTime.of(9, 0))
                 .build();
 
-        // Cita cancelada (no debería bloquear el espacio)
         var cancelledAppointment = Appointment.builder()
                 .startAt(LocalTime.of(8, 0))
                 .endAt(LocalTime.of(8, 30))
@@ -116,16 +114,15 @@ class AvailabilityServiceImplTest {
         when(appointmentRepository.findByOfficeIdAndDateAndStartAtBetween(eq(officeId), eq(targetDate), any(), any()))
                 .thenReturn(List.of());
 
-        var result = service.getAvailableSlots(doctorId, officeId, targetDate);
+        var result = service.getAvailableSlots(doctorId, officeId, targetDate, null);
 
-        // Como la cita estaba cancelada, ambos bloques deben estar disponibles
         assertThat(result).hasSize(2);
     }
 
     @Test
     void shouldThrowValidationExceptionWhenDoctorIdIsNull() {
         assertThrows(ValidationException.class,
-                () -> service.getAvailableSlots(null, officeId, targetDate));
+                () -> service.getAvailableSlots(null, officeId, targetDate, null));
     }
 
     @Test
@@ -133,7 +130,7 @@ class AvailabilityServiceImplTest {
         when(doctorRepository.existsById(doctorId)).thenReturn(false);
 
         assertThrows(ResourceNotFoundException.class,
-                () -> service.getAvailableSlots(doctorId, officeId, targetDate));
+                () -> service.getAvailableSlots(doctorId, officeId, targetDate, null));
     }
 
     @Test
@@ -143,6 +140,6 @@ class AvailabilityServiceImplTest {
                 .thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class,
-                () -> service.getAvailableSlots(doctorId, officeId, targetDate));
+                () -> service.getAvailableSlots(doctorId, officeId, targetDate, null));
     }
 }

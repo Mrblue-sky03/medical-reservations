@@ -38,7 +38,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
             UUID doctorId,
             UUID officeId,
             LocalDate date,
-            UUID appointmentTypeId) {   // ← nuevo parámetro
+            UUID appointmentTypeId) {
 
         requireNonNull(doctorId, "El ID del doctor no puede ser nulo");
         requireNonNull(date, "La fecha no puede ser nula");
