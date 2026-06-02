@@ -1,4 +1,4 @@
-package edu.unimag.domine.api;
+package edu.unimag.domine.api.controller;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;

@@ -1,4 +1,4 @@
-package edu.unimag.domine.api;
+package edu.unimag.domine.api.controller;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

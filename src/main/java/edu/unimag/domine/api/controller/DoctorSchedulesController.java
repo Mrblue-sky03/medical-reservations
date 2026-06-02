@@ -1,4 +1,4 @@
-package edu.unimag.domine.api;
+package edu.unimag.domine.api.controller;
 
 import java.util.List;
 import java.util.UUID;
