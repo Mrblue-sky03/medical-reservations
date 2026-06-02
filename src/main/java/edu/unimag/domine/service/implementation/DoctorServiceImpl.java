@@ -61,8 +61,9 @@ public class DoctorServiceImpl implements DoctorService {
                 .toList();
     }
 
-    @Override
+   @Override
     public DoctorResponse updateDoctor(UUID id, UpdateDoctorRequest req) {
+        
         if (Objects.isNull(req)) {
             throw new ValidationException("updated request can not be null");
         }
@@ -71,6 +72,20 @@ public class DoctorServiceImpl implements DoctorService {
                 .orElseThrow(() -> new ResourceNotFoundException("doctor not found " + id));
 
         doctorMapper.update(req, doctor);
+
+        if (req.specialtyId() != null) {
+            Specialty specialty = specialtyService.findById(req.specialtyId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Specialty not found " + req.specialtyId()));
+            doctor.setSpecialty(specialty);
+        }
+
+        if (req.numberLicense() != null) {
+            doctor.setLicenseNumber(req.numberLicense());
+        }
+
+        if (req.active() != null) {
+            doctor.setActive(req.active());
+        }
 
         return doctorMapper.toResponse(doctorRepository.save(doctor));
     }

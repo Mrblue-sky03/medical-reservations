@@ -11,6 +11,12 @@ public class AppointmentTypesDtos {
             Integer durationMinutes
     ) implements Serializable {}
 
+    public record UpdateAppointmentTypeRequest(
+            String name,
+            String description,
+            Integer durationMinutes
+    ) implements Serializable {}
+
     public record AppointmentTypeResponse(
             UUID id,
             String name,

@@ -9,6 +9,7 @@ import edu.unimag.domine.entities.enums.Status;
 import edu.unimag.domine.exceptions.BusinessException;
 import edu.unimag.domine.exceptions.ConflictException;
 import edu.unimag.domine.exceptions.ResourceNotFoundException;
+import edu.unimag.domine.exceptions.ValidationException;
 import edu.unimag.domine.mappers.AppointmentMapper;
 import edu.unimag.domine.repositories.*;
 import edu.unimag.domine.service.AppointmentService;
@@ -62,6 +63,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         Office office = officeRepository.findById(request.officeId())
                 .orElseThrow(() -> new ResourceNotFoundException("Office not found"));
+
+        if (!office.getActive()) {
+            throw new ValidationException("No se pueden programar citas en el consultorio '" + office.getName() + "' porque está inactivo.");
+        }
 
         if (!Boolean.TRUE.equals(office.getActive())) {
             throw new BusinessException("Office is not active");

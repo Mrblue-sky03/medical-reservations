@@ -58,6 +58,11 @@ public class PatientServiceImpl implements PatientService {
                 .orElseThrow(() -> new ResourceNotFoundException("patient not found " + id));
 
         patientMapper.update(request, patient);
+
+        if (request.active() != null) {
+            patient.setActive(request.active());
+        }
+
         return patientMapper.toResponse(patientRepository.save(patient));
     }
 

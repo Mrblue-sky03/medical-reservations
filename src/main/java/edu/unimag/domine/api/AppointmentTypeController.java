@@ -1,7 +1,9 @@
 package edu.unimag.domine.api;
 
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 
 import edu.unimag.domine.api.dto.AppointmentTypesDtos.AppointmentTypeResponse;
 import edu.unimag.domine.api.dto.AppointmentTypesDtos.CreateAppointmentTypeRequest;
+import edu.unimag.domine.api.dto.AppointmentTypesDtos.UpdateAppointmentTypeRequest;
 import edu.unimag.domine.service.AppointmentTypeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +27,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/appointment-types")
 @Validated
-
 public class AppointmentTypeController {
 
     private final AppointmentTypeService appointmentTypeService;
@@ -47,4 +49,16 @@ public class AppointmentTypeController {
         var appointmentType = appointmentTypeService.getById(id);
         return ResponseEntity.ok(appointmentType);
     }    
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<AppointmentTypeResponse> update(@PathVariable UUID id, @RequestBody @Valid UpdateAppointmentTypeRequest request) {
+        var appointmentTypeUpdated = appointmentTypeService.update(id, request);
+        return ResponseEntity.ok(appointmentTypeUpdated);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        appointmentTypeService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

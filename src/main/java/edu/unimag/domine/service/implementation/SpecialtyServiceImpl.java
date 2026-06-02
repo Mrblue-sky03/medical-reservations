@@ -1,6 +1,7 @@
 package edu.unimag.domine.service.implementation;
 
 import edu.unimag.domine.api.dto.SpecialtyDtos.CreateSpecialtyRequest;
+import edu.unimag.domine.api.dto.SpecialtyDtos.UpdateSpecialtyRequest;
 import edu.unimag.domine.api.dto.SpecialtyDtos.SpecialtyResponse;
 import edu.unimag.domine.entities.Specialty;
 import edu.unimag.domine.exceptions.ResourceNotFoundException;
@@ -47,5 +48,30 @@ public class SpecialtyServiceImpl implements SpecialtyService {
         return specialtyRepository.findAll().stream()
                 .map(specialtyMapper::toResponse)
                 .toList();
+    }
+
+    // 🌟 NUEVO: Lógica para actualizar campos mapeados
+    @Override
+    public SpecialtyResponse update(UUID id, UpdateSpecialtyRequest req) {
+        if (Objects.isNull(req)) {
+            throw new ValidationException("request can not be null");
+        }
+        
+        Specialty specialty = specialtyRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("specialty not found: " + id));
+        
+        specialty.setName(req.name());
+        specialty.setDescription(req.description());
+        
+        return specialtyMapper.toResponse(specialtyRepository.save(specialty));
+    }
+
+    // 🌟 NUEVO: Lógica para eliminar de forma física
+    @Override
+    public void delete(UUID id) {
+        if (!specialtyRepository.existsById(id)) {
+            throw new ResourceNotFoundException("specialty not found: " + id);
+        }
+        specialtyRepository.deleteById(id);
     }
 }

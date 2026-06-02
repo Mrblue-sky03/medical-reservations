@@ -1,6 +1,7 @@
 package edu.unimag.domine.service.implementation;
 
 import edu.unimag.domine.api.dto.AppointmentTypesDtos.CreateAppointmentTypeRequest;
+import edu.unimag.domine.api.dto.AppointmentTypesDtos.UpdateAppointmentTypeRequest;
 import edu.unimag.domine.api.dto.AppointmentTypesDtos.AppointmentTypeResponse;
 import edu.unimag.domine.entities.AppointmentType;
 import edu.unimag.domine.exceptions.ConflictException;
@@ -14,9 +15,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.util.List;
-
 
 @Service
 @Transactional
@@ -27,7 +26,6 @@ public class AppointmentTypeServiceImpl implements AppointmentTypeService {
 
     @Override
     public AppointmentTypeResponse create(CreateAppointmentTypeRequest req) {
-
         if (req == null) {
             throw new ValidationException("The request cannot be null");
         }
@@ -50,12 +48,12 @@ public class AppointmentTypeServiceImpl implements AppointmentTypeService {
         return appointmentTypeMapper.toResponse(appointmentTypeRepository.save(appointmentType));
     }
 
-
     private static void requireNonBlank(String str, String message) {
         if (str == null || str.trim().isEmpty()) {
             throw new ValidationException(message);
         }
     }
+
     @Transactional(readOnly = true)
     @Override
     public List<AppointmentTypeResponse> getAll() {
@@ -63,8 +61,7 @@ public class AppointmentTypeServiceImpl implements AppointmentTypeService {
                 .stream()
                 .map(appointmentTypeMapper::toResponse)
                 .toList();
-    
-        }
+    }
 
     @Transactional(readOnly = true)
     @Override
@@ -73,4 +70,54 @@ public class AppointmentTypeServiceImpl implements AppointmentTypeService {
                 .map(appointmentTypeMapper::toResponse)
                 .orElseThrow(() -> new ValidationException("Appointment type with id '" + id + "' not found"));
     }
+
+  
+    @Override
+    public AppointmentTypeResponse update(UUID id, UpdateAppointmentTypeRequest req) {
+        if (req == null) {
+            throw new ValidationException("The request cannot be null");
+        }
+
+        AppointmentType appointmentType = appointmentTypeRepository.findById(id)
+                .orElseThrow(() -> new ValidationException("Appointment type with id '" + id + "' not found"));
+
+        requireNonBlank(req.name(), "The appointment type name cannot be blank");
+
+        if (req.durationMinutes() == null) {
+            throw new ValidationException("The duration cannot be null");
+        }
+
+        if (req.durationMinutes() <= 0) {
+            throw new ValidationException("The duration must be greater than 0");
+        }
+
+        // Si cambia el nombre, verificamos que el nuevo nombre no esté tomado por otro registro
+        if (!appointmentType.getName().equalsIgnoreCase(req.name()) && appointmentTypeRepository.existsByName(req.name())) {
+            throw new ConflictException("An appointment type with name '" + req.name() + "' already exists");
+        }
+
+        appointmentType.setName(req.name());
+        appointmentType.setDescription(req.description());
+        appointmentType.setDurationMinutes(req.durationMinutes());
+
+        return appointmentTypeMapper.toResponse(appointmentTypeRepository.save(appointmentType));
+    }
+
+
+        @Override
+        public void delete(UUID id) {
+        if (!appointmentTypeRepository.existsById(id)) {
+            throw new ValidationException("Appointment type with id '" + id + "' not found");
+        }
+        
+        try {
+            appointmentTypeRepository.deleteById(id);
+            // 💡 Forzamos a Hibernate a ejecutar el DELETE aquí mismo para atrapar el error
+            appointmentTypeRepository.flush(); 
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            // 🌟 Lanzamos tu excepción personalizada con el mensaje para el usuario
+            throw new ConflictException("No se puede eliminar este tipo de cita porque ya está asignado a registros de citas.");
+        }
+    }
+
 }

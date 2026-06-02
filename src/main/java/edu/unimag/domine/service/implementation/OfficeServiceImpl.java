@@ -53,7 +53,7 @@ public class OfficeServiceImpl implements OfficeService {
 
         Office office = officeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("office not found " + id));
-
+    
         officeMapper.update(request, office);
         return officeMapper.toResponse(officeRepository.save(office));
     }

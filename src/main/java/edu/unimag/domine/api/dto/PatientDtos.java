@@ -21,7 +21,8 @@ public class PatientDtos {
             String fullName,
             String email,
             String phoneNumber,
-            DocumentType documentType
+            DocumentType documentType,
+            Boolean active
 
     ) implements Serializable {}
 
