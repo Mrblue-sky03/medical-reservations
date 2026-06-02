@@ -18,8 +18,8 @@ public class OfficeDtos {
     ) implements Serializable {}
 
     public record UpdateOfficeRequest(
-            String name,
-            String location,
+            @Size(min = 1) String name,
+            @Size(min = 1) String location,
             Boolean active
     ) implements Serializable {}
 

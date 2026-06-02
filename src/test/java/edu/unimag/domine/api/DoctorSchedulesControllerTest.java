@@ -110,7 +110,7 @@ class DoctorSchedulesControllerTest {
         when(doctorScheduleService.update(eq(scheduleId), any(CreateDoctorScheduleRequest.class)))
             .thenReturn(updated);
 
-        mockMvc.perform(patch("/api/doctors/{doctorId}/schedules/{scheduleId}", doctorId, scheduleId)
+        mockMvc.perform(put("/api/doctors/{doctorId}/schedules/{scheduleId}", doctorId, scheduleId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateRequest)))
             .andExpect(status().isOk())
@@ -125,7 +125,7 @@ class DoctorSchedulesControllerTest {
         when(doctorScheduleService.update(eq(scheduleId), any(CreateDoctorScheduleRequest.class)))
             .thenThrow(new ResourceNotFoundException("Schedule not found"));
 
-        mockMvc.perform(patch("/api/doctors/{doctorId}/schedules/{scheduleId}", doctorId, scheduleId)
+        mockMvc.perform(put("/api/doctors/{doctorId}/schedules/{scheduleId}", doctorId, scheduleId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateRequest)))
             .andExpect(status().isNotFound());
@@ -135,7 +135,7 @@ class DoctorSchedulesControllerTest {
     void testUpdateScheduleWithInvalidRequest() throws Exception {
         var invalidRequest = new CreateDoctorScheduleRequest(null, null, null, null);
 
-        mockMvc.perform(patch("/api/doctors/{doctorId}/schedules/{scheduleId}", doctorId, scheduleId)
+        mockMvc.perform(put("/api/doctors/{doctorId}/schedules/{scheduleId}", doctorId, scheduleId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidRequest)))
             .andExpect(status().isBadRequest());
